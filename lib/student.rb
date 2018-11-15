@@ -100,8 +100,18 @@ class Student
       LIMIT 1
       SQL
       
-    DB[:conn].execute(sql).each do |row|
+    DB[:conn].execute(sql).map do |row|
       self.new_from_db(row)
     end
+  end
+  
+  def self.all_students_in_grade_X(grade)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?
+      SQL
+      
+    DB[:conn].execute(sql)
   end
 end
